@@ -15,6 +15,8 @@ register(
 
 env = gym.make("FrozenLakeNotSlippery-v0")
 
+plt.style.use('ggplot')
+
 no_of_action = env.action_space.n
 no_of_states = env.observation_space.n
 Q = torch.zeros([no_of_states,no_of_action])
@@ -49,11 +51,11 @@ time2 = time.time()
 print(time2-time1)
 print("percentage of episodes finished successfully: {0}".format(sum(rewards_total)/num_episodes))
 print("average number of steps = %f" %(stats.mean(steps_list)))
-fig1 = plt.plot(steps_list)
-plt.title("number of steps per episodes")
+fig1 = plt.bar(torch.arange(len(rewards_total)), rewards_total, alpha=0.6, color='green')
+plt.title("rewards collected per episode. reward = 1 means goal reached")
 plt.show()
 plt.savefig("steps_frozelake_Qlearning")
-fig2 = plt.plot(rewards_total)
-plt.title("rewards collected per episode. reward = 1 means goal reached")
+fig2 = plt.bar(torch.arange(len(rewards_total)), steps_list, alpha=0.6, color='red')
+plt.title("number of steps per episodes")
 plt.show()
 plt.savefig("rewards collected")
